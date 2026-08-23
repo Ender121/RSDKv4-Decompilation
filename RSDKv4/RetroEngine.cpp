@@ -426,6 +426,9 @@ void RetroEngine::Init()
 #endif
         gameType = GAME_SONIC1;
     }
+    if (strstr(gameWindowText, "Sonic CD")) {
+        gameType = GAME_SONICCD;
+    }
 #endif
 
 #if !RETRO_USE_ORIGINAL_CODE
