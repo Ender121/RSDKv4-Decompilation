@@ -3,6 +3,31 @@
 float timeAttackU[] = { 1.0, 321.0, 641.0, 1.0, 321.0, 641.0, 641.0 };
 float timeAttackV[] = { 1.0, 1.0, 1.0, 241.0, 241.0, 241.0, 721.0 };
 
+// Sonic CD: nombres de carpeta reales tomados de GameConfig.bin (categoría Regular).
+// Cada acto tiene variantes de tiempo A/B/C/D; para elegir con qué carpeta arrancar
+// Time Attack se usa la variante "A" (pasado) de los actos 1 y 2, y "C" (buen futuro)
+// para el acto 3, que nunca tiene variante A/B.
+static const char *cdActFolders[7][3] = {
+    { "R11A", "R12A", "R13C" }, // Palmtree Panic
+    { "R31A", "R32A", "R33C" }, // Collision Chaos
+    { "R41A", "R42A", "R43C" }, // Tidal Tempest
+    { "R51A", "R52A", "R53C" }, // Quartz Quadrant
+    { "R61A", "R62A", "R63C" }, // Wacky Workbench
+    { "R71A", "R72A", "R73C" }, // Stardust Speedway
+    { "R81A", "R82A", "R83C" }, // Metallic Madness (zona final)
+};
+
+// Busca por nombre de carpeta dentro de la lista Regular ya cargada desde GameConfig.bin
+// y devuelve su posición real (stageListPosition). Devuelve 0 si no la encuentra.
+static int FindRegularStageByFolder(const char *folder)
+{
+    for (int i = 0; i < stageListCount[STAGELIST_REGULAR]; ++i) {
+        if (!strcmp(stageList[STAGELIST_REGULAR][i].folder, folder))
+            return i;
+    }
+    return 0;
+}
+
 void RecordsScreen_Create(void *objPtr)
 {
     RSDK_THIS(RecordsScreen);
@@ -72,15 +97,15 @@ void RecordsScreen_Main(void *objPtr)
                 self->textureTimeAttack = LoadTexture(pathBuf, TEXFMT_RGBA5551);
             }
 
-            if (Engine.gameType == GAME_SONIC1) {
+            if (Engine.gameType == GAME_SONIC1 || Engine.gameType == GAME_SONICCD) {
                 self->actCount = 3;
                 if (self->zoneID == 6) { // final
-                    self->actCount     = 1;
+                    self->actCount     = (Engine.gameType == GAME_SONICCD) ? 3 : 1;
                     self->recordOffset = (timeAttack_ActCount * 6);
                 }
                 else if (self->zoneID == 7) { // special
-                    self->actCount     = 6;
-                    self->recordOffset = (timeAttack_ActCount * 6) + 1;
+                    self->actCount     = (Engine.gameType == GAME_SONICCD) ? 8 : 6;
+                    self->recordOffset = (timeAttack_ActCount * 6) + ((Engine.gameType == GAME_SONICCD) ? 3 : 1);
                 }
             }
             else if (Engine.gameType == GAME_SONIC2) {
@@ -117,7 +142,7 @@ void RecordsScreen_Main(void *objPtr)
                         break;
                 }
             }
-            else if (Engine.gameType == GAME_SONIC1 && self->zoneID >= 6) {
+            else if ((Engine.gameType == GAME_SONIC1 || Engine.gameType == GAME_SONICCD) && self->zoneID >= 6) {
                 switch (self->zoneID) {
                     default: break;
                     case 6: // dumber stupider dumber
@@ -136,12 +161,12 @@ void RecordsScreen_Main(void *objPtr)
             }
 
             int pos = 0;
-            if (Engine.gameType == GAME_SONIC1) {
+            if (Engine.gameType == GAME_SONIC1 || Engine.gameType == GAME_SONICCD) {
                 switch (self->zoneID) {
                     default: pos = timeAttack_ActCount * self->zoneID; break;
                     case 7: // special stage
                         pos = timeAttack_ActCount * 6;
-                        pos++;
+                        pos += (Engine.gameType == GAME_SONICCD) ? 3 : 1;
                         break;
                 }
             }
@@ -367,12 +392,12 @@ void RecordsScreen_Main(void *objPtr)
 
         case RECORDSSCREEN_STATE_FLIP: {
             int pos = 0;
-            if (Engine.gameType == GAME_SONIC1) {
+            if (Engine.gameType == GAME_SONIC1 || Engine.gameType == GAME_SONICCD) {
                 switch (self->zoneID) {
                     default: pos += timeAttack_ActCount * self->zoneID; break;
                     case 7: // special stage
                         pos += timeAttack_ActCount * 6;
-                        pos++;
+                        pos += (Engine.gameType == GAME_SONICCD) ? 3 : 1;
                         break;
                 }
             }
@@ -415,7 +440,7 @@ void RecordsScreen_Main(void *objPtr)
                             break;
                     }
                 }
-                else if (Engine.gameType == GAME_SONIC1 && self->zoneID >= 6) {
+                else if ((Engine.gameType == GAME_SONIC1 || Engine.gameType == GAME_SONICCD) && self->zoneID >= 6) {
                     switch (self->zoneID) {
                         default: break;
                         case 6: // dumber stupider dumber
@@ -527,7 +552,7 @@ void RecordsScreen_Main(void *objPtr)
                 SetGlobalVariableByName("starPostID", 0);
                 SetGlobalVariableByName("timeAttack.result", 0);
 
-                if (self->zoneID >= 7 && Engine.gameType == GAME_SONIC1)
+                if (self->zoneID >= 7 && (Engine.gameType == GAME_SONIC1 || Engine.gameType == GAME_SONICCD))
                     InitStartingStage(STAGELIST_SPECIAL, self->actID, 0);
                 else if (self->zoneID >= 9 && Engine.gameType == GAME_SONIC2) {
                     switch (self->zoneID) {
@@ -545,6 +570,8 @@ void RecordsScreen_Main(void *objPtr)
                 else if (Engine.gameType == GAME_SONIC2 && self->zoneID == 8)
                     InitStartingStage(STAGELIST_REGULAR, 18, 0);
 #endif
+                else if (Engine.gameType == GAME_SONICCD && self->zoneID <= 6)
+                    InitStartingStage(STAGELIST_REGULAR, FindRegularStageByFolder(cdActFolders[self->zoneID][self->actID]), 0);
                 else
                     InitStartingStage(STAGELIST_REGULAR, self->zoneID * timeAttack_ActCount + self->actID, 0);
 
@@ -558,12 +585,12 @@ void RecordsScreen_Main(void *objPtr)
         }
         case RECORDSSCREEN_STATE_SHOWRESULTS: {
             int pos = 0;
-            if (Engine.gameType == GAME_SONIC1) {
+            if (Engine.gameType == GAME_SONIC1 || Engine.gameType == GAME_SONICCD) {
                 switch (self->zoneID) {
                     default: pos += timeAttack_ActCount * self->zoneID; break;
                     case 7: // special stage
                         pos += timeAttack_ActCount * 6;
-                        pos++;
+                        pos += (Engine.gameType == GAME_SONICCD) ? 3 : 1;
                         break;
                 }
             }
@@ -612,20 +639,24 @@ void RecordsScreen_Main(void *objPtr)
                 int pos = 0;
                 for (int i = 0; i < timeAttack_ZoneCount; ++i) {
                     timeAttack->totalTime = 0;
-                    if (Engine.gameType == GAME_SONIC1) {
+                    if (Engine.gameType == GAME_SONIC1 || Engine.gameType == GAME_SONICCD) {
                         switch (i) {
                             default:
                                 for (int a = 0; a < timeAttack_ActCount; ++a) timeAttack->totalTime += saveGame->records[3 * (pos + a)];
                                 pos += timeAttack_ActCount;
                                 break;
-                            case 6: // final zone
-                                timeAttack->totalTime += saveGame->records[3 * pos];
-                                pos++;
+                            case 6: { // final zone
+                                int finalZoneActs = (Engine.gameType == GAME_SONICCD) ? 3 : 1;
+                                for (int a = 0; a < finalZoneActs; ++a) timeAttack->totalTime += saveGame->records[3 * (pos + a)];
+                                pos += finalZoneActs;
                                 break;
-                            case 7: // special stage
-                                for (int a = 0; a < 6; ++a) timeAttack->totalTime += saveGame->records[3 * (pos + a)];
-                                pos += 6;
+                            }
+                            case 7: { // special stage
+                                int specialStageCount = (Engine.gameType == GAME_SONICCD) ? 8 : 6;
+                                for (int a = 0; a < specialStageCount; ++a) timeAttack->totalTime += saveGame->records[3 * (pos + a)];
+                                pos += specialStageCount;
                                 break;
+                            }
                         }
                     }
                     else {
@@ -647,20 +678,24 @@ void RecordsScreen_Main(void *objPtr)
                 timeAttack->totalTime = 0;
                 for (int z = 0; z < timeAttack_ZoneCount; ++z) {
                     // 1st
-                    if (Engine.gameType == GAME_SONIC1) {
+                    if (Engine.gameType == GAME_SONIC1 || Engine.gameType == GAME_SONICCD) {
                         switch (z) {
                             default:
                                 for (int a = 0; a < timeAttack_ActCount; ++a) timeAttack->totalTime += saveGame->records[3 * (pos + a)];
                                 pos += timeAttack_ActCount;
                                 break;
-                            case 6: // final zone
-                                timeAttack->totalTime += saveGame->records[3 * pos];
-                                pos++;
+                            case 6: { // final zone
+                                int finalZoneActs = (Engine.gameType == GAME_SONICCD) ? 3 : 1;
+                                for (int a = 0; a < finalZoneActs; ++a) timeAttack->totalTime += saveGame->records[3 * (pos + a)];
+                                pos += finalZoneActs;
                                 break;
-                            case 7: // special stage
-                                for (int a = 0; a < 6; ++a) timeAttack->totalTime += saveGame->records[3 * (pos + a)];
-                                pos += 6;
+                            }
+                            case 7: { // special stage
+                                int specialStageCount = (Engine.gameType == GAME_SONICCD) ? 8 : 6;
+                                for (int a = 0; a < specialStageCount; ++a) timeAttack->totalTime += saveGame->records[3 * (pos + a)];
+                                pos += specialStageCount;
                                 break;
+                            }
                         }
                     }
                     else {
