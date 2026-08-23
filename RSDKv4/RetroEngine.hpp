@@ -286,6 +286,7 @@ enum RetroGameType {
     GAME_UNKNOWN = 0,
     GAME_SONIC1  = 1,
     GAME_SONIC2  = 2,
+    GAME_SONICCD = 3,
 };
 
 // General Defines
