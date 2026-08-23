@@ -739,12 +739,12 @@ void SettingsScreen_Main(void *objPtr)
                             cartTex = LoadTexture("Data/Game/Models/JPCartridge.png", TEXFMT_RGBA8888);
                             break;
                         case REGION_US:
-                            boxTex  = LoadTexture("Data/Game/Models/Box.png", TEXFMT_RGBA8888);
-                            cartTex = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA8888);
+                            boxTex  = LoadTexture("Data/Game/Models/USBox.png", TEXFMT_RGBA8888);
+                            cartTex = LoadTexture("Data/Game/Models/USCartridge.png", TEXFMT_RGBA8888);
                             break;
                         case REGION_EU:
-                            boxTex  = LoadTexture("Data/Game/Models/Box.png", TEXFMT_RGBA8888);
-                            cartTex = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA8888);
+                            boxTex  = LoadTexture("Data/Game/Models/EUBox.png", TEXFMT_RGBA8888);
+                            cartTex = LoadTexture("Data/Game/Models/EUCartridge.png", TEXFMT_RGBA8888);
                             break;
                     }
                     Engine.globalBoxRegion = saveGame->boxRegion;
@@ -754,12 +754,12 @@ void SettingsScreen_Main(void *objPtr)
                             ReplaceTexture("Data/Game/Models/JPCartridge.png", cartTex);
                             break;
                         case REGION_US:
-                            ReplaceTexture("Data/Game/Models/Box.png", boxTex);
-                            ReplaceTexture("Data/Game/Models/Cartridge.png", cartTex);
+                            ReplaceTexture("Data/Game/Models/USBox.png", boxTex);
+                            ReplaceTexture("Data/Game/Models/USCartridge.png", cartTex);
                             break;
                         case REGION_EU:
-                            ReplaceTexture("Data/Game/Models/Box.png", boxTex);
-                            ReplaceTexture("Data/Game/Models/Cartridge.png", cartTex);
+                            ReplaceTexture("Data/Game/Models/EUBox.png", boxTex);
+                            ReplaceTexture("Data/Game/Models/EUCartridge.png", cartTex);
                             break;
                     }
                 }

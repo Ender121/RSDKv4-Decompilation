@@ -129,15 +129,15 @@ void TitleScreen_Create(void *objPtr)
             self->cartMesh  = LoadMesh("Data/Game/Models/JPCartridge.bin", cartTex);
             break;
         case REGION_US:
-            boxTex          = LoadTexture("Data/Game/Models/Box.png", TEXFMT_RGBA5551);
-            cartTex         = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA5551);
+            boxTex          = LoadTexture("Data/Game/Models/USBox.png", TEXFMT_RGBA5551);
+            cartTex         = LoadTexture("Data/Game/Models/USCartridge.png", TEXFMT_RGBA5551);
             self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
             self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
             self->cartMesh  = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
             break;
         case REGION_EU:
-            boxTex          = LoadTexture("Data/Game/Models/Box.png", TEXFMT_RGBA5551);
-            cartTex         = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA5551);
+            boxTex          = LoadTexture("Data/Game/Models/EUBox.png", TEXFMT_RGBA5551);
+            cartTex         = LoadTexture("Data/Game/Models/EUCartridge.png", TEXFMT_RGBA5551);
             self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
             self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
             self->cartMesh  = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);

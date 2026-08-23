@@ -13,12 +13,12 @@ void StartGameButton_Create(void *objPtr)
             break;
 
         case REGION_US:
-            cartTex        = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA5551);
+            cartTex        = LoadTexture("Data/Game/Models/USCartridge.png", TEXFMT_RGBA5551);
             self->meshCart = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
             break;
 
         case REGION_EU:
-            cartTex        = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA5551);
+            cartTex        = LoadTexture("Data/Game/Models/EUCartridge.png", TEXFMT_RGBA5551);
             self->meshCart = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
             break;
     }
@@ -49,11 +49,11 @@ void StartGameButton_Main(void *objPtr)
                 self->meshCart = LoadMesh("Data/Game/Models/JPCartridge.bin", cartTex);
                 break;
             case REGION_US:
-                cartTex        = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA5551);
+                cartTex        = LoadTexture("Data/Game/Models/USCartridge.png", TEXFMT_RGBA5551);
                 self->meshCart = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
                 break;
             case REGION_EU:
-                cartTex        = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA5551);
+                cartTex        = LoadTexture("Data/Game/Models/EUCartridge.png", TEXFMT_RGBA5551);
                 self->meshCart = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
                 break;
         }

@@ -33,11 +33,11 @@ void AboutScreen_Create(void *objPtr)
             self->meshBox = LoadMesh("Data/Game/Models/JPBox.bin", boxTex);
             break;
         case REGION_US:
-            boxTex        = LoadTexture("Data/Game/Models/Box.png", TEXFMT_RGBA5551);
+            boxTex        = LoadTexture("Data/Game/Models/USBox.png", TEXFMT_RGBA5551);
             self->meshBox = LoadMesh("Data/Game/Models/Box.bin", boxTex);
             break;
         case REGION_EU:
-            boxTex        = LoadTexture("Data/Game/Models/Box.png", TEXFMT_RGBA5551);
+            boxTex        = LoadTexture("Data/Game/Models/EUBox.png", TEXFMT_RGBA5551);
             self->meshBox = LoadMesh("Data/Game/Models/Box.bin", boxTex);
             break;
         default: break;
