@@ -1,7 +1,7 @@
 name: Build RSDKv4
 
 on:
-  push:
+  push:workflow_dispatch:
     paths:
       - android/**
       - dependencies/**
