@@ -732,17 +732,35 @@ void SettingsScreen_Main(void *objPtr)
                 }
 
                 if (Engine.globalBoxRegion != saveGame->boxRegion) {
-                    int package = 0;
+                    int boxTex = 0, cartTex = 0;
                     switch (Engine.globalBoxRegion) {
-                        case REGION_JP: package = LoadTexture("Data/Game/Models/Package_JP.png", TEXFMT_RGBA8888); break;
-                        case REGION_US: package = LoadTexture("Data/Game/Models/Package_US.png", TEXFMT_RGBA8888); break;
-                        case REGION_EU: package = LoadTexture("Data/Game/Models/Package_EU.png", TEXFMT_RGBA8888); break;
+                        case REGION_JP:
+                            boxTex  = LoadTexture("Data/Game/Models/JPBox.png", TEXFMT_RGBA8888);
+                            cartTex = LoadTexture("Data/Game/Models/JPCartridge.png", TEXFMT_RGBA8888);
+                            break;
+                        case REGION_US:
+                            boxTex  = LoadTexture("Data/Game/Models/Box.png", TEXFMT_RGBA8888);
+                            cartTex = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA8888);
+                            break;
+                        case REGION_EU:
+                            boxTex  = LoadTexture("Data/Game/Models/Box.png", TEXFMT_RGBA8888);
+                            cartTex = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA8888);
+                            break;
                     }
                     Engine.globalBoxRegion = saveGame->boxRegion;
                     switch (Engine.globalBoxRegion) {
-                        case REGION_JP: ReplaceTexture("Data/Game/Models/Package_JP.png", package); break;
-                        case REGION_US: ReplaceTexture("Data/Game/Models/Package_US.png", package); break;
-                        case REGION_EU: ReplaceTexture("Data/Game/Models/Package_EU.png", package); break;
+                        case REGION_JP:
+                            ReplaceTexture("Data/Game/Models/JPBox.png", boxTex);
+                            ReplaceTexture("Data/Game/Models/JPCartridge.png", cartTex);
+                            break;
+                        case REGION_US:
+                            ReplaceTexture("Data/Game/Models/Box.png", boxTex);
+                            ReplaceTexture("Data/Game/Models/Cartridge.png", cartTex);
+                            break;
+                        case REGION_EU:
+                            ReplaceTexture("Data/Game/Models/Box.png", boxTex);
+                            ReplaceTexture("Data/Game/Models/Cartridge.png", cartTex);
+                            break;
                     }
                 }
                 WriteSaveRAMData();

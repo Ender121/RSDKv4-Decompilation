@@ -5,21 +5,21 @@ void StartGameButton_Create(void *objPtr)
     RSDK_THIS(StartGameButton);
     self->textureCircle = LoadTexture("Data/Game/Menu/Circle.png", TEXFMT_RGBA4444);
 
-    int package = 0;
+    int cartTex = 0;
     switch (Engine.globalBoxRegion) {
         case REGION_JP:
-            package        = LoadTexture("Data/Game/Models/Package_JP.png", TEXFMT_RGBA5551);
-            self->meshCart = LoadMesh("Data/Game/Models/JPCartridge.bin", package);
+            cartTex        = LoadTexture("Data/Game/Models/JPCartridge.png", TEXFMT_RGBA5551);
+            self->meshCart = LoadMesh("Data/Game/Models/JPCartridge.bin", cartTex);
             break;
 
         case REGION_US:
-            package        = LoadTexture("Data/Game/Models/Package_US.png", TEXFMT_RGBA5551);
-            self->meshCart = LoadMesh("Data/Game/Models/Cartridge.bin", package);
+            cartTex        = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA5551);
+            self->meshCart = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
             break;
 
         case REGION_EU:
-            package        = LoadTexture("Data/Game/Models/Package_EU.png", TEXFMT_RGBA5551);
-            self->meshCart = LoadMesh("Data/Game/Models/Cartridge.bin", package);
+            cartTex        = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA5551);
+            self->meshCart = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
             break;
     }
 
@@ -42,19 +42,19 @@ void StartGameButton_Main(void *objPtr)
 {
     RSDK_THIS(StartGameButton);
     if (self->prevRegion != Engine.globalBoxRegion) {
-        int package = 0;
+        int cartTex = 0;
         switch (Engine.globalBoxRegion) {
             case REGION_JP:
-                package        = LoadTexture("Data/Game/Models/Package_JP.png", TEXFMT_RGBA5551);
-                self->meshCart = LoadMesh("Data/Game/Models/JPCartridge.bin", package);
+                cartTex        = LoadTexture("Data/Game/Models/JPCartridge.png", TEXFMT_RGBA5551);
+                self->meshCart = LoadMesh("Data/Game/Models/JPCartridge.bin", cartTex);
                 break;
             case REGION_US:
-                package        = LoadTexture("Data/Game/Models/Package_US.png", TEXFMT_RGBA5551);
-                self->meshCart = LoadMesh("Data/Game/Models/Cartridge.bin", package);
+                cartTex        = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA5551);
+                self->meshCart = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
                 break;
             case REGION_EU:
-                package        = LoadTexture("Data/Game/Models/Package_EU.png", TEXFMT_RGBA5551);
-                self->meshCart = LoadMesh("Data/Game/Models/Cartridge.bin", package);
+                cartTex        = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA5551);
+                self->meshCart = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
                 break;
         }
         self->prevRegion = Engine.globalBoxRegion;

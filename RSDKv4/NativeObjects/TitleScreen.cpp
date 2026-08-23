@@ -119,25 +119,28 @@ void TitleScreen_Create(void *objPtr)
     self->labelPtr->y    = -96.0;
     self->introTextureID = LoadTexture("Data/Game/Menu/Intro.png", TEXFMT_RGBA5551);
 
-    int package = 0;
+    int boxTex = 0, cartTex = 0;
     switch (Engine.globalBoxRegion) {
         case REGION_JP:
-            package         = LoadTexture("Data/Game/Models/Package_JP.png", TEXFMT_RGBA5551);
+            boxTex          = LoadTexture("Data/Game/Models/JPBox.png", TEXFMT_RGBA5551);
+            cartTex         = LoadTexture("Data/Game/Models/JPCartridge.png", TEXFMT_RGBA5551);
             self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
-            self->boxMesh   = LoadMesh("Data/Game/Models/JPBox.bin", package);
-            self->cartMesh  = LoadMesh("Data/Game/Models/JPCartridge.bin", package);
+            self->boxMesh   = LoadMesh("Data/Game/Models/JPBox.bin", boxTex);
+            self->cartMesh  = LoadMesh("Data/Game/Models/JPCartridge.bin", cartTex);
             break;
         case REGION_US:
-            package         = LoadTexture("Data/Game/Models/Package_US.png", TEXFMT_RGBA5551);
+            boxTex          = LoadTexture("Data/Game/Models/Box.png", TEXFMT_RGBA5551);
+            cartTex         = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA5551);
             self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
-            self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", package);
-            self->cartMesh  = LoadMesh("Data/Game/Models/Cartridge.bin", package);
+            self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
+            self->cartMesh  = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
             break;
         case REGION_EU:
-            package         = LoadTexture("Data/Game/Models/Package_EU.png", TEXFMT_RGBA5551);
+            boxTex          = LoadTexture("Data/Game/Models/Box.png", TEXFMT_RGBA5551);
+            cartTex         = LoadTexture("Data/Game/Models/Cartridge.png", TEXFMT_RGBA5551);
             self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
-            self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", package);
-            self->cartMesh  = LoadMesh("Data/Game/Models/Cartridge.bin", package);
+            self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
+            self->cartMesh  = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
             break;
     }
 
