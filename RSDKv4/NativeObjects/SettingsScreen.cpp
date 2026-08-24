@@ -733,10 +733,19 @@ void SettingsScreen_Main(void *objPtr)
 
                 if (Engine.globalBoxRegion != saveGame->boxRegion) {
                     int boxTex = 0, cartTex = 0;
-                    switch (Engine.globalBoxRegion) {
-                        case REGION_JP: boxTex = LoadTexture("Data/Game/Models/JPBox.png", TEXFMT_RGBA8888); break;
-                        case REGION_US: boxTex = LoadTexture("Data/Game/Models/USBox.png", TEXFMT_RGBA8888); break;
-                        case REGION_EU: boxTex = LoadTexture("Data/Game/Models/EUBox.png", TEXFMT_RGBA8888); break;
+                    if (Engine.gameType == GAME_SONICCD) {
+                        switch (Engine.globalBoxRegion) {
+                            case REGION_JP: boxTex = LoadTexture("Data/Game/Models/JPBox.png", TEXFMT_RGBA8888); break;
+                            case REGION_US: boxTex = LoadTexture("Data/Game/Models/USBox.png", TEXFMT_RGBA8888); break;
+                            case REGION_EU: boxTex = LoadTexture("Data/Game/Models/EUBox.png", TEXFMT_RGBA8888); break;
+                        }
+                    }
+                    else {
+                        switch (Engine.globalBoxRegion) {
+                            case REGION_JP: boxTex = LoadTexture("Data/Game/Models/Package_JP.png", TEXFMT_RGBA8888); break;
+                            case REGION_US: boxTex = LoadTexture("Data/Game/Models/Package_US.png", TEXFMT_RGBA8888); break;
+                            case REGION_EU: boxTex = LoadTexture("Data/Game/Models/Package_EU.png", TEXFMT_RGBA8888); break;
+                        }
                     }
                     if (Engine.gameType == GAME_SONICCD) {
                         switch (Engine.globalBoxRegion) {
@@ -755,10 +764,19 @@ void SettingsScreen_Main(void *objPtr)
 
                     Engine.globalBoxRegion = saveGame->boxRegion;
 
-                    switch (Engine.globalBoxRegion) {
-                        case REGION_JP: ReplaceTexture("Data/Game/Models/JPBox.png", boxTex); break;
-                        case REGION_US: ReplaceTexture("Data/Game/Models/USBox.png", boxTex); break;
-                        case REGION_EU: ReplaceTexture("Data/Game/Models/EUBox.png", boxTex); break;
+                    if (Engine.gameType == GAME_SONICCD) {
+                        switch (Engine.globalBoxRegion) {
+                            case REGION_JP: ReplaceTexture("Data/Game/Models/JPBox.png", boxTex); break;
+                            case REGION_US: ReplaceTexture("Data/Game/Models/USBox.png", boxTex); break;
+                            case REGION_EU: ReplaceTexture("Data/Game/Models/EUBox.png", boxTex); break;
+                        }
+                    }
+                    else {
+                        switch (Engine.globalBoxRegion) {
+                            case REGION_JP: ReplaceTexture("Data/Game/Models/Package_JP.png", boxTex); break;
+                            case REGION_US: ReplaceTexture("Data/Game/Models/Package_US.png", boxTex); break;
+                            case REGION_EU: ReplaceTexture("Data/Game/Models/Package_EU.png", boxTex); break;
+                        }
                     }
                     if (Engine.gameType == GAME_SONICCD) {
                         switch (Engine.globalBoxRegion) {
