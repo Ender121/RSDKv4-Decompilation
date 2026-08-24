@@ -123,25 +123,52 @@ void TitleScreen_Create(void *objPtr)
     switch (Engine.globalBoxRegion) {
         case REGION_JP:
             boxTex          = LoadTexture("Data/Game/Models/JPBox.png", TEXFMT_RGBA5551);
-            cartTex         = LoadTexture("Data/Game/Models/JPCartridge.png", TEXFMT_RGBA5551);
             self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
             self->boxMesh   = LoadMesh("Data/Game/Models/JPBox.bin", boxTex);
-            self->cartMesh  = LoadMesh("Data/Game/Models/JPCartridge.bin", cartTex);
             break;
         case REGION_US:
             boxTex          = LoadTexture("Data/Game/Models/USBox.png", TEXFMT_RGBA5551);
-            cartTex         = LoadTexture("Data/Game/Models/USCartridge.png", TEXFMT_RGBA5551);
             self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
             self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
-            self->cartMesh  = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
             break;
         case REGION_EU:
             boxTex          = LoadTexture("Data/Game/Models/EUBox.png", TEXFMT_RGBA5551);
-            cartTex         = LoadTexture("Data/Game/Models/EUCartridge.png", TEXFMT_RGBA5551);
             self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
             self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
-            self->cartMesh  = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
             break;
+    }
+
+    if (Engine.gameType == GAME_SONICCD) {
+        switch (Engine.globalBoxRegion) {
+            case REGION_JP:
+                cartTex        = LoadTexture("Data/Game/Models/JPDisc.png", TEXFMT_RGBA5551);
+                self->cartMesh = LoadMesh("Data/Game/Models/Disc.bin", cartTex);
+                break;
+            case REGION_US:
+                cartTex        = LoadTexture("Data/Game/Models/USDisc.png", TEXFMT_RGBA5551);
+                self->cartMesh = LoadMesh("Data/Game/Models/Disc.bin", cartTex);
+                break;
+            case REGION_EU:
+                cartTex        = LoadTexture("Data/Game/Models/EUDisc.png", TEXFMT_RGBA5551);
+                self->cartMesh = LoadMesh("Data/Game/Models/Disc.bin", cartTex);
+                break;
+        }
+    }
+    else {
+        switch (Engine.globalBoxRegion) {
+            case REGION_JP:
+                cartTex        = LoadTexture("Data/Game/Models/Package_JP.png", TEXFMT_RGBA5551);
+                self->cartMesh = LoadMesh("Data/Game/Models/JPCartridge.bin", cartTex);
+                break;
+            case REGION_US:
+                cartTex        = LoadTexture("Data/Game/Models/Package_US.png", TEXFMT_RGBA5551);
+                self->cartMesh = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
+                break;
+            case REGION_EU:
+                cartTex        = LoadTexture("Data/Game/Models/Package_EU.png", TEXFMT_RGBA5551);
+                self->cartMesh = LoadMesh("Data/Game/Models/Cartridge.bin", cartTex);
+                break;
+        }
     }
 
     SetMeshAnimation(self->boxMesh, &self->meshAnimator, 16, 16, 0.0);
