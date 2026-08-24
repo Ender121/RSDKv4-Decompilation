@@ -5,16 +5,16 @@ float timeAttackV[] = { 1.0, 1.0, 1.0, 241.0, 241.0, 241.0, 721.0 };
 
 // Sonic CD: nombres de carpeta reales tomados de GameConfig.bin (categoría Regular).
 // Cada acto tiene variantes de tiempo A/B/C/D; para elegir con qué carpeta arrancar
-// Time Attack se usa la variante "A" (pasado) de los actos 1 y 2, y "C" (buen futuro)
+// Time Attack se usa la variante "A" (pasado) de los actos 1 y 2, y "D" (mal futuro)
 // para el acto 3, que nunca tiene variante A/B.
 static const char *cdActFolders[7][3] = {
-    { "R11A", "R12A", "R13C" }, // Palmtree Panic
-    { "R31A", "R32A", "R33C" }, // Collision Chaos
-    { "R41A", "R42A", "R43C" }, // Tidal Tempest
-    { "R51A", "R52A", "R53C" }, // Quartz Quadrant
-    { "R61A", "R62A", "R63C" }, // Wacky Workbench
-    { "R71A", "R72A", "R73C" }, // Stardust Speedway
-    { "R81A", "R82A", "R83C" }, // Metallic Madness (zona final)
+    { "R11A", "R12A", "R13D" }, // Palmtree Panic
+    { "R31A", "R32A", "R33D" }, // Collision Chaos
+    { "R41A", "R42A", "R43D" }, // Tidal Tempest
+    { "R51A", "R52A", "R53D" }, // Quartz Quadrant
+    { "R61A", "R62A", "R63D" }, // Wacky Workbench
+    { "R71A", "R72A", "R73D" }, // Stardust Speedway
+    { "R81A", "R82A", "R83D" }, // Metallic Madness (zona final)
 };
 
 // Busca por nombre de carpeta dentro de la lista Regular ya cargada desde GameConfig.bin
