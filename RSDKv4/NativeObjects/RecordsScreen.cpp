@@ -535,6 +535,14 @@ void RecordsScreen_Main(void *objPtr)
             if (self->buttons[RECORDSSCREEN_BUTTON_PLAY]->state == PUSHBUTTON_STATE_UNSELECTED) {
                 SetGlobalVariableByName("options.saveSlot", 0);
                 SetGlobalVariableByName("options.gameMode", 2);
+                if (Engine.gameType == GAME_SONICCD && self->zoneID <= 6) {
+                    // La escena legacy "TAttack" (Global/ActFinish.txt) necesita estas
+                    // dos variables seteadas para calcular a qué stage volver al terminar
+                    // el acto; si quedan en su valor por defecto, arma un stage.listPos
+                    // inválido y el juego se cuelga al volver.
+                    SetGlobalVariableByName("timeAttack.round", self->zoneID);
+                    SetGlobalVariableByName("timeAttack.zone", self->actID);
+                }
                 SetGlobalVariableByName("player.lives", 1);
                 SetGlobalVariableByName("player.score", 0);
                 SetGlobalVariableByName("player.scoreBonus", 50000);
