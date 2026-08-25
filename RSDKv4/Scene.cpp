@@ -131,6 +131,44 @@ void ProcessStage(void)
 
     switch (stageMode) {
         case STAGEMODE_LOAD: // Startup
+#if !RETRO_USE_ORIGINAL_CODE
+            // La escena "TAttack" original (Global/ActFinish.txt + TAttack/MenuControl.txt)
+            // crashea en Android al volver de un acto jugado en Time Attack. En vez de
+            // dejarla cargar, guardamos el récord nosotros mismos (misma fórmula que usa
+            // el script original) y redirigimos al menú principal (Presentation "MENU").
+            if (Engine.gameType == GAME_SONICCD && activeStageList == STAGELIST_PRESENTATION
+                && stageListPosition < stageListCount[STAGELIST_PRESENTATION]
+                && !strcmp(stageList[STAGELIST_PRESENTATION][stageListPosition].folder, "TAttack")) {
+                int taRound  = GetGlobalVariableByName("timeAttack.round");
+                int taZone   = GetGlobalVariableByName("timeAttack.zone");
+                int taResult = GetGlobalVariableByName("timeAttack.result");
+                if (taRound > -1 && taResult > 0) {
+                    int arrayPos0 = taRound * 18 + taZone * 6 + 48; // menuSection 0 = zonas regulares
+                    if (taResult < saveRAM[arrayPos0]) {
+                        saveRAM[arrayPos0 + 4] = saveRAM[arrayPos0 + 2];
+                        saveRAM[arrayPos0 + 2] = saveRAM[arrayPos0];
+                        saveRAM[arrayPos0]     = taResult;
+                    }
+                    else if (taResult < saveRAM[arrayPos0 + 2]) {
+                        saveRAM[arrayPos0 + 4] = saveRAM[arrayPos0 + 2];
+                        saveRAM[arrayPos0 + 2] = taResult;
+                    }
+                    else if (taResult < saveRAM[arrayPos0 + 4]) {
+                        saveRAM[arrayPos0 + 4] = taResult;
+                    }
+                    WriteSaveRAMData();
+                }
+                SetGlobalVariableByName("timeAttack.round", -1);
+                activeStageList   = STAGELIST_PRESENTATION;
+                stageListPosition = 0;
+                for (int p = 0; p < stageListCount[STAGELIST_PRESENTATION]; ++p) {
+                    if (!strcmp(stageList[STAGELIST_PRESENTATION][p].name, "MENU")) {
+                        stageListPosition = p;
+                        break;
+                    }
+                }
+            }
+#endif
             SetActivePalette(0, 0, 256);
             gameMenu[0].visibleRowOffset = 0;
             gameMenu[1].alignment        = 0;
