@@ -3,18 +3,6 @@
 void TitleScreen_Create(void *objPtr)
 {
     RSDK_THIS(TitleScreen);
-
-#if !RETRO_USE_ORIGINAL_CODE
-    // Volviendo de un acto jugado en Time Attack (Sonic CD): saltar toda la animación
-    // de intro/caja y entrar directo al menú redondo, igual que hace el motor original
-    // cuando volvés al menú sin haber apagado el juego (recuerda dónde estabas).
-    if (skipTitleIntro) {
-        skipTitleIntro = false;
-        ResetNativeObject(self, MenuControl_Create, MenuControl_Main);
-        return;
-    }
-#endif
-
     int heading  = 0;
     int labelTex = 0;
     int textTex  = 0;
