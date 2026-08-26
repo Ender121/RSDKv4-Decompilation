@@ -120,43 +120,22 @@ void TitleScreen_Create(void *objPtr)
     self->introTextureID = LoadTexture("Data/Game/Menu/Intro.png", TEXFMT_RGBA5551);
 
     int boxTex = 0, cartTex = 0;
-    if (Engine.gameType == GAME_SONICCD) {
-        switch (Engine.globalBoxRegion) {
-            case REGION_JP:
-                boxTex          = LoadTexture("Data/Game/Models/JPBox.png", TEXFMT_RGBA5551);
-                self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
-                self->boxMesh   = LoadMesh("Data/Game/Models/JPBox.bin", boxTex);
-                break;
-            case REGION_US:
-                boxTex          = LoadTexture("Data/Game/Models/USBox.png", TEXFMT_RGBA5551);
-                self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
-                self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
-                break;
-            case REGION_EU:
-                boxTex          = LoadTexture("Data/Game/Models/EUBox.png", TEXFMT_RGBA5551);
-                self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
-                self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
-                break;
-        }
-    }
-    else {
-        switch (Engine.globalBoxRegion) {
-            case REGION_JP:
-                boxTex          = LoadTexture("Data/Game/Models/Package_JP.png", TEXFMT_RGBA5551);
-                self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
-                self->boxMesh   = LoadMesh("Data/Game/Models/JPBox.bin", boxTex);
-                break;
-            case REGION_US:
-                boxTex          = LoadTexture("Data/Game/Models/Package_US.png", TEXFMT_RGBA5551);
-                self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
-                self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
-                break;
-            case REGION_EU:
-                boxTex          = LoadTexture("Data/Game/Models/Package_EU.png", TEXFMT_RGBA5551);
-                self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
-                self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
-                break;
-        }
+    switch (Engine.globalBoxRegion) {
+        case REGION_JP:
+            boxTex          = LoadTexture("Data/Game/Models/JPBox.png", TEXFMT_RGBA5551);
+            self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
+            self->boxMesh   = LoadMesh("Data/Game/Models/JPBox.bin", boxTex);
+            break;
+        case REGION_US:
+            boxTex          = LoadTexture("Data/Game/Models/USBox.png", TEXFMT_RGBA5551);
+            self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
+            self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
+            break;
+        case REGION_EU:
+            boxTex          = LoadTexture("Data/Game/Models/EUBox.png", TEXFMT_RGBA5551);
+            self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
+            self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
+            break;
     }
 
     if (Engine.gameType == GAME_SONICCD) {
