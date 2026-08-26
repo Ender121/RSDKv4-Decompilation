@@ -159,13 +159,14 @@ void ProcessStage(void)
                     WriteSaveRAMData();
                 }
                 SetGlobalVariableByName("timeAttack.round", -1);
+                SetGlobalVariableByName("options.gameMode", 0);
                 Engine.gameMode                  = ENGINE_MAINGAME;
                 NativeEntity_FadeScreen *fadeout = CREATE_ENTITY(FadeScreen);
                 fadeout->state                   = FADESCREEN_STATE_GAMEFADEOUT;
                 activeStageList                  = STAGELIST_PRESENTATION;
                 stageListPosition                = 0;
                 for (int p = 0; p < stageListCount[STAGELIST_PRESENTATION]; ++p) {
-                    if (!strcmp(stageList[STAGELIST_PRESENTATION][p].name, "TITLE SCREEN")) {
+                    if (!strcmp(stageList[STAGELIST_PRESENTATION][p].name, "MENU")) {
                         stageListPosition = p;
                         break;
                     }
