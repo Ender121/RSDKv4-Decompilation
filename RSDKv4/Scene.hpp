@@ -185,6 +185,9 @@ extern int stageMinutes;
 // Category and Scene IDs
 extern int activeStageList;
 extern int stageListPosition;
+#if !RETRO_USE_ORIGINAL_CODE
+extern bool skipTitleIntro; // saltar la animación de intro/caja al volver de Time Attack (Sonic CD)
+#endif
 extern char currentStageFolder[0x100];
 extern int actID;
 

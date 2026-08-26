@@ -54,6 +54,9 @@ int stageMinutes      = 0;
 // Category and Scene IDs
 int activeStageList   = 0;
 int stageListPosition = 0;
+#if !RETRO_USE_ORIGINAL_CODE
+bool skipTitleIntro = false;
+#endif
 char currentStageFolder[0x100];
 int actID = 0;
 
@@ -160,6 +163,7 @@ void ProcessStage(void)
                 }
                 SetGlobalVariableByName("timeAttack.round", -1);
                 SetGlobalVariableByName("options.gameMode", 0);
+                skipTitleIntro                   = true;
                 Engine.gameMode                  = ENGINE_MAINGAME;
                 NativeEntity_FadeScreen *fadeout = CREATE_ENTITY(FadeScreen);
                 fadeout->state                   = FADESCREEN_STATE_GAMEFADEOUT;
