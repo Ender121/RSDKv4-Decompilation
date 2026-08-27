@@ -749,9 +749,9 @@ void SettingsScreen_Main(void *objPtr)
                     }
                     if (Engine.gameType == GAME_SONICCD) {
                         switch (Engine.globalBoxRegion) {
-                            case REGION_JP: cartTex = LoadTexture("Data/Game/Models/DiscJP.png", TEXFMT_RGBA8888); break;
-                            case REGION_US: cartTex = LoadTexture("Data/Game/Models/DiscUS.png", TEXFMT_RGBA8888); break;
-                            case REGION_EU: cartTex = LoadTexture("Data/Game/Models/DiscEU.png", TEXFMT_RGBA8888); break;
+                            case REGION_JP: cartTex = LoadTexture("Data/Game/Models/JPDisc.png", TEXFMT_RGBA8888); break;
+                            case REGION_US: cartTex = LoadTexture("Data/Game/Models/USDisc.png", TEXFMT_RGBA8888); break;
+                            case REGION_EU: cartTex = LoadTexture("Data/Game/Models/EUDisc.png", TEXFMT_RGBA8888); break;
                         }
                     }
                     else {
@@ -780,9 +780,9 @@ void SettingsScreen_Main(void *objPtr)
                     }
                     if (Engine.gameType == GAME_SONICCD) {
                         switch (Engine.globalBoxRegion) {
-                            case REGION_JP: ReplaceTexture("Data/Game/Models/DiscJP.png", cartTex); break;
-                            case REGION_US: ReplaceTexture("Data/Game/Models/DiscUS.png", cartTex); break;
-                            case REGION_EU: ReplaceTexture("Data/Game/Models/DiscEU.png", cartTex); break;
+                            case REGION_JP: ReplaceTexture("Data/Game/Models/JPDisc.png", cartTex); break;
+                            case REGION_US: ReplaceTexture("Data/Game/Models/USDisc.png", cartTex); break;
+                            case REGION_EU: ReplaceTexture("Data/Game/Models/EUDisc.png", cartTex); break;
                         }
                     }
                     else {
