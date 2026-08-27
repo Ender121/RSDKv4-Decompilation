@@ -135,7 +135,9 @@ void ProcessStage(void)
             // La escena "TAttack" original (Global/ActFinish.txt + TAttack/MenuControl.txt)
             // crashea en Android al volver de un acto jugado en Time Attack. En vez de
             // dejarla cargar, guardamos el récord nosotros mismos (misma fórmula que usa
-            // el script original) y redirigimos al menú principal (Presentation "MENU").
+            // el script original) y creamos el MenuControl nativo directamente: no depende
+            // de ningún stage cargado (carga su propia música, fondo y botones), así que no
+            // hace falta pasar por la carpeta "Title" (heredada de CD11/RSDKv3) para nada.
             if (Engine.gameType == GAME_SONICCD && activeStageList == STAGELIST_PRESENTATION
                 && stageListPosition < stageListCount[STAGELIST_PRESENTATION]
                 && !strcmp(stageList[STAGELIST_PRESENTATION][stageListPosition].folder, "TAttack")) {
@@ -159,14 +161,13 @@ void ProcessStage(void)
                     WriteSaveRAMData();
                 }
                 SetGlobalVariableByName("timeAttack.round", -1);
-                activeStageList   = STAGELIST_PRESENTATION;
-                stageListPosition = 0;
-                for (int p = 0; p < stageListCount[STAGELIST_PRESENTATION]; ++p) {
-                    if (!strcmp(stageList[STAGELIST_PRESENTATION][p].name, "MENU")) {
-                        stageListPosition = p;
-                        break;
-                    }
-                }
+                SetGlobalVariableByName("options.gameMode", 0);
+                Engine.gameMode                  = ENGINE_MAINGAME;
+                NativeEntity_FadeScreen *fadeout = CREATE_ENTITY(FadeScreen);
+                fadeout->state                   = FADESCREEN_STATE_GAMEFADEOUT;
+                CREATE_ENTITY(MenuControl);
+                stageMode = STAGEMODE_NORMAL;
+                return;
             }
 #endif
             SetActivePalette(0, 0, 256);
