@@ -77,7 +77,17 @@ void RetroGameLoop_Main(void *objPtr)
             }
             else {
                 RestoreNativeObjects();
+#if !RETRO_USE_ORIGINAL_CODE
+                // LoadGameConfig() pisa todas las variables globales con sus valores por
+                // defecto, incluida timeAttack.result justo antes de que RecordsScreen la
+                // lea para guardar el récord (Sonic CD). La guardamos y la reinyectamos.
+                int taResultBackup = (Engine.gameType == GAME_SONICCD) ? GetGlobalVariableByName("timeAttack.result") : 0;
+#endif
                 Engine.LoadGameConfig("Data/Game/GameConfig.bin");
+#if !RETRO_USE_ORIGINAL_CODE
+                if (Engine.gameType == GAME_SONICCD)
+                    SetGlobalVariableByName("timeAttack.result", taResultBackup);
+#endif
                 activeStageList   = 0;
                 stageListPosition = 0;
             }
