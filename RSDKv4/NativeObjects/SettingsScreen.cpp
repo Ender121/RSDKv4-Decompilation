@@ -26,6 +26,11 @@ void SettingsScreen_Create(void *objPtr)
     if (Engine.gameType == GAME_SONIC1) {
         SetStringToFont(self->spindashText, strSpindash, FONT_LABEL);
     }
+#if !RETRO_USE_ORIGINAL_CODE
+    else if (Engine.gameType == GAME_SONICCD) {
+        SetStringToFont8(self->spindashText, "SOUNDTRACK", FONT_LABEL);
+    }
+#endif
     SetStringToFont(self->boxArtText, strBoxArt, FONT_LABEL);
     for (int i = 0; i < 4; ++i) {
         button                  = CREATE_ENTITY(PushButton);
@@ -48,8 +53,17 @@ void SettingsScreen_Create(void *objPtr)
     button->scale                          = 0.175;
     button->useRenderMatrix                = true;
     button->bgColorSelected                = 0x00C060;
-    button->bgColor                        = saveGame->spindashEnabled ? 0x00A048 : 0x006020;
-    SetStringToFont(self->buttons[SETTINGSSCREEN_BTN_SDON]->text, strOn, FONT_LABEL);
+#if !RETRO_USE_ORIGINAL_CODE
+    if (Engine.gameType == GAME_SONICCD) {
+        button->bgColor = saveGame->soundtrackJP ? 0x00A048 : 0x006020;
+        SetStringToFont8(self->buttons[SETTINGSSCREEN_BTN_SDON]->text, "JP", FONT_LABEL);
+    }
+    else
+#endif
+    {
+        button->bgColor = saveGame->spindashEnabled ? 0x00A048 : 0x006020;
+        SetStringToFont(self->buttons[SETTINGSSCREEN_BTN_SDON]->text, strOn, FONT_LABEL);
+    }
 
     button                                  = CREATE_ENTITY(PushButton);
     self->buttons[SETTINGSSCREEN_BTN_SDOFF] = button;
@@ -59,9 +73,22 @@ void SettingsScreen_Create(void *objPtr)
     button->scale                           = 0.175;
     button->useRenderMatrix                 = true;
     button->bgColorSelected                 = 0x00A048;
-    button->bgColor                         = !saveGame->spindashEnabled ? 0x00A048 : 0x006020;
-    SetStringToFont(self->buttons[SETTINGSSCREEN_BTN_SDOFF]->text, strOff, FONT_LABEL);
-    if (Engine.gameType != GAME_SONIC1) {
+#if !RETRO_USE_ORIGINAL_CODE
+    if (Engine.gameType == GAME_SONICCD) {
+        button->bgColor = !saveGame->soundtrackJP ? 0x00A048 : 0x006020;
+        SetStringToFont8(self->buttons[SETTINGSSCREEN_BTN_SDOFF]->text, "US", FONT_LABEL);
+    }
+    else
+#endif
+    {
+        button->bgColor = !saveGame->spindashEnabled ? 0x00A048 : 0x006020;
+        SetStringToFont(self->buttons[SETTINGSSCREEN_BTN_SDOFF]->text, strOff, FONT_LABEL);
+    }
+    if (Engine.gameType != GAME_SONIC1
+#if !RETRO_USE_ORIGINAL_CODE
+        && Engine.gameType != GAME_SONICCD
+#endif
+    ) {
         self->buttons[SETTINGSSCREEN_BTN_SDON]->alpha  = 0;
         self->buttons[SETTINGSSCREEN_BTN_SDOFF]->alpha = 0;
     }
@@ -174,7 +201,7 @@ void SettingsScreen_Main(void *objPtr)
                     if (keyPress.up) {
                         PlaySfxByName("Menu Move", false);
                         self->selected--;
-                        if ((Engine.gameType != GAME_SONIC1 || self->isPauseMenu) && self->selected == SETTINGSSCREEN_SEL_SPINDASH)
+                        if ((Engine.gameType != GAME_SONIC1 && Engine.gameType != GAME_SONICCD || self->isPauseMenu) && self->selected == SETTINGSSCREEN_SEL_SPINDASH)
                             self->selected = SETTINGSSCREEN_SEL_SFXVOL;
                         if (self->selected <= SETTINGSSCREEN_SEL_NONE)
                             self->selected = SETTINGSSCREEN_SEL_CONTROLS;
@@ -182,7 +209,7 @@ void SettingsScreen_Main(void *objPtr)
                     if (keyPress.down) {
                         PlaySfxByName("Menu Move", false);
                         self->selected++;
-                        if ((Engine.gameType != GAME_SONIC1 || self->isPauseMenu) && self->selected == SETTINGSSCREEN_SEL_SPINDASH)
+                        if ((Engine.gameType != GAME_SONIC1 && Engine.gameType != GAME_SONICCD || self->isPauseMenu) && self->selected == SETTINGSSCREEN_SEL_SPINDASH)
                             self->selected = SETTINGSSCREEN_SEL_REGION;
                         if (self->selected > SETTINGSSCREEN_SEL_CONTROLS)
                             self->selected = SETTINGSSCREEN_SEL_MUSVOL;
@@ -229,21 +256,27 @@ void SettingsScreen_Main(void *objPtr)
                                 SetGameVolumes(saveGame->musVolume, saveGame->sfxVolume);
                             }
                             break;
-                        case SETTINGSSCREEN_SEL_SPINDASH:
-                            if (saveGame->spindashEnabled)
+                        case SETTINGSSCREEN_SEL_SPINDASH: {
+#if !RETRO_USE_ORIGINAL_CODE
+                            bool isCD   = Engine.gameType == GAME_SONICCD;
+                            int &toggle = isCD ? saveGame->soundtrackJP : saveGame->spindashEnabled;
+#else
+                            int &toggle = saveGame->spindashEnabled;
+#endif
+                            if (toggle)
                                 self->buttons[SETTINGSSCREEN_BTN_SDON]->state = PUSHBUTTON_STATE_SELECTED;
                             else
                                 self->buttons[SETTINGSSCREEN_BTN_SDOFF]->state = PUSHBUTTON_STATE_SELECTED;
                             if (keyPress.left || keyPress.right) {
                                 PlaySfxByName("Menu Move", false);
-                                if (saveGame->spindashEnabled) {
+                                if (toggle) {
                                     self->buttons[SETTINGSSCREEN_BTN_SDON]->state            = PUSHBUTTON_STATE_UNSELECTED;
                                     self->buttons[SETTINGSSCREEN_BTN_SDOFF]->state           = PUSHBUTTON_STATE_SELECTED;
                                     self->buttons[SETTINGSSCREEN_BTN_SDON]->bgColor          = 0x006020;
                                     self->buttons[SETTINGSSCREEN_BTN_SDON]->bgColorSelected  = 0x00C060;
                                     self->buttons[SETTINGSSCREEN_BTN_SDOFF]->bgColor         = 0x00A048;
                                     self->buttons[SETTINGSSCREEN_BTN_SDOFF]->bgColorSelected = 0x00C060;
-                                    saveGame->spindashEnabled                                = false;
+                                    toggle                                                   = false;
                                 }
                                 else {
                                     self->buttons[SETTINGSSCREEN_BTN_SDON]->state            = PUSHBUTTON_STATE_SELECTED;
@@ -252,10 +285,15 @@ void SettingsScreen_Main(void *objPtr)
                                     self->buttons[SETTINGSSCREEN_BTN_SDON]->bgColorSelected  = 0x00C060;
                                     self->buttons[SETTINGSSCREEN_BTN_SDOFF]->bgColor         = 0x006020;
                                     self->buttons[SETTINGSSCREEN_BTN_SDOFF]->bgColorSelected = 0x00C060;
-                                    saveGame->spindashEnabled                                = true;
+                                    toggle                                                   = true;
                                 }
+#if !RETRO_USE_ORIGINAL_CODE
+                                if (isCD)
+                                    SetGlobalVariableByName("options.soundtrack", toggle ? 0 : 1);
+#endif
                             }
                             break;
+                        }
                         case SETTINGSSCREEN_SEL_REGION:
                             if (keyPress.left || keyPress.right) {
                                 if (keyPress.left) {
@@ -351,7 +389,14 @@ void SettingsScreen_Main(void *objPtr)
 
                     if (self->buttons[SETTINGSSCREEN_BTN_SDON]->state == PUSHBUTTON_STATE_SELECTED) {
                         PlaySfxByName("Menu Move", false);
-                        saveGame->spindashEnabled                                = true;
+#if !RETRO_USE_ORIGINAL_CODE
+                        if (Engine.gameType == GAME_SONICCD) {
+                            saveGame->soundtrackJP = true;
+                            SetGlobalVariableByName("options.soundtrack", 0);
+                        }
+                        else
+#endif
+                            saveGame->spindashEnabled = true;
                         self->buttons[SETTINGSSCREEN_BTN_SDON]->state            = PUSHBUTTON_STATE_UNSELECTED;
                         self->buttons[SETTINGSSCREEN_BTN_SDON]->bgColor          = 0x00A048;
                         self->buttons[SETTINGSSCREEN_BTN_SDON]->bgColorSelected  = 0x00C060;
@@ -361,7 +406,14 @@ void SettingsScreen_Main(void *objPtr)
 
                     if (self->buttons[SETTINGSSCREEN_BTN_SDOFF]->state == PUSHBUTTON_STATE_SELECTED) {
                         PlaySfxByName("Menu Move", false);
-                        saveGame->spindashEnabled                                = false;
+#if !RETRO_USE_ORIGINAL_CODE
+                        if (Engine.gameType == GAME_SONICCD) {
+                            saveGame->soundtrackJP = false;
+                            SetGlobalVariableByName("options.soundtrack", 1);
+                        }
+                        else
+#endif
+                            saveGame->spindashEnabled = false;
                         self->buttons[SETTINGSSCREEN_BTN_SDOFF]->state           = PUSHBUTTON_STATE_UNSELECTED;
                         self->buttons[SETTINGSSCREEN_BTN_SDON]->bgColor          = 0x006020;
                         self->buttons[SETTINGSSCREEN_BTN_SDON]->bgColorSelected  = 0x00C060;
@@ -433,7 +485,7 @@ void SettingsScreen_Main(void *objPtr)
                         NativeEntity_PushButton *button = self->buttons[i];
 
                         if (i == 4 || i == 5) {
-                            if (!self->isPauseMenu && Engine.gameType == GAME_SONIC1)
+                            if (!self->isPauseMenu && (Engine.gameType == GAME_SONIC1 || Engine.gameType == GAME_SONICCD))
                                 button->state = CheckTouchRect(touchX[i], touchY[i], (button->textWidth + (button->scale * 64.0)) * 0.75, 12.0) >= 0;
                         }
                         else {
@@ -922,7 +974,7 @@ void SettingsScreen_Main(void *objPtr)
                 SetRenderVertexColor(0xFF, 0xFF, 0x00);
             else
                 SetRenderVertexColor(0xFF, 0xFF, 0xFF);
-            if (!self->isPauseMenu && Engine.gameType == GAME_SONIC1) {
+            if (!self->isPauseMenu && (Engine.gameType == GAME_SONIC1 || Engine.gameType == GAME_SONICCD)) {
                 if ((Engine.language - 1) <= 6 && ((1 << (Engine.language - 1)) & 0x43))
                     RenderText(self->spindashText, FONT_LABEL, -128.0, -6.0, 0, 0.09, 255);
                 else
