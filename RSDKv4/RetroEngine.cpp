@@ -1109,6 +1109,12 @@ void RetroEngine::LoadXMLStages(TextMenu *menu, int listNo)
 
 bool RetroEngine::LoadGameConfig(const char *filePath)
 {
+#if !RETRO_USE_ORIGINAL_CODE
+    // Esta función pisa TODAS las variables globales con sus valores por defecto,
+    // options.soundtrack (Sonic CD) incluido. La guardamos acá y la reinyectamos al
+    // final para que la elección de soundtrack del jugador nunca se pierda.
+    int soundtrackBackup = (gameType == GAME_SONICCD) ? GetGlobalVariableByName("options.soundtrack") : 0;
+#endif
     FileInfo info;
     byte fileBuffer  = 0;
     byte fileBuffer2 = 0;
@@ -1334,6 +1340,11 @@ bool RetroEngine::LoadGameConfig(const char *filePath)
 #if RETRO_REV03
     Engine.usingOrigins = GetGlobalVariableID("game.playMode") != 0xFF;
 #endif
+#endif
+
+#if !RETRO_USE_ORIGINAL_CODE
+    if (gameType == GAME_SONICCD)
+        SetGlobalVariableByName("options.soundtrack", soundtrackBackup);
 #endif
 
     return loaded;
