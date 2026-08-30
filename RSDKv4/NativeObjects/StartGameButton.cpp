@@ -64,16 +64,16 @@ void StartGameButton_Main(void *objPtr)
         if (Engine.gameType == GAME_SONICCD) {
             switch (Engine.globalBoxRegion) {
                 case REGION_JP:
-                    cartTex        = LoadTexture("Data/Game/Models/JPDisc.png", TEXFMT_RGBA5551);
-                    self->meshCart = LoadMesh("Data/Game/Models/Disc.bin", cartTex);
+                    cartTex        = LoadTexture("Data/Game/Models/DiscJP.png", TEXFMT_RGBA5551);
+                    self->meshCart = LoadMesh("Data/Game/Models/MegaCDMedia.bin", cartTex);
                     break;
                 case REGION_US:
-                    cartTex        = LoadTexture("Data/Game/Models/USDisc.png", TEXFMT_RGBA5551);
-                    self->meshCart = LoadMesh("Data/Game/Models/Disc.bin", cartTex);
+                    cartTex        = LoadTexture("Data/Game/Models/DiscUS.png", TEXFMT_RGBA5551);
+                    self->meshCart = LoadMesh("Data/Game/Models/MegaCDMedia.bin", cartTex);
                     break;
                 case REGION_EU:
-                    cartTex        = LoadTexture("Data/Game/Models/EUDisc.png", TEXFMT_RGBA5551);
-                    self->meshCart = LoadMesh("Data/Game/Models/Disc.bin", cartTex);
+                    cartTex        = LoadTexture("Data/Game/Models/DiscEU.png", TEXFMT_RGBA5551);
+                    self->meshCart = LoadMesh("Data/Game/Models/MegaCDMedia.bin", cartTex);
                     break;
             }
         }
