@@ -30,15 +30,15 @@ void AboutScreen_Create(void *objPtr)
     if (Engine.gameType == GAME_SONICCD) {
         switch (Engine.globalBoxRegion) {
             case REGION_JP:
-                boxTex        = LoadTexture("Data/Game/Models/BoxJP.png", TEXFMT_RGBA5551);
+                boxTex        = LoadTexture("Data/Game/Models/JPBox.png", TEXFMT_RGBA5551);
                 self->meshBox = LoadMesh("Data/Game/Models/Box.bin", boxTex);
                 break;
             case REGION_US:
-                boxTex        = LoadTexture("Data/Game/Models/BoxUS.png", TEXFMT_RGBA5551);
-                self->meshBox = LoadMesh("Data/Game/Models/BoxUS.bin", boxTex);
+                boxTex        = LoadTexture("Data/Game/Models/USBox.png", TEXFMT_RGBA5551);
+                self->meshBox = LoadMesh("Data/Game/Models/USBox.bin", boxTex);
                 break;
             case REGION_EU:
-                boxTex        = LoadTexture("Data/Game/Models/BoxEU.png", TEXFMT_RGBA5551);
+                boxTex        = LoadTexture("Data/Game/Models/EUBox.png", TEXFMT_RGBA5551);
                 self->meshBox = LoadMesh("Data/Game/Models/Box.bin", boxTex);
                 break;
         }

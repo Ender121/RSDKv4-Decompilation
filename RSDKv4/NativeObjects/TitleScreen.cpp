@@ -125,12 +125,12 @@ void TitleScreen_Create(void *objPtr)
             case REGION_JP:
                 boxTex          = LoadTexture("Data/Game/Models/JPBox.png", TEXFMT_RGBA5551);
                 self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
-                self->boxMesh   = LoadMesh("Data/Game/Models/JPBox.bin", boxTex);
+                self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
                 break;
             case REGION_US:
                 boxTex          = LoadTexture("Data/Game/Models/USBox.png", TEXFMT_RGBA5551);
                 self->introMesh = LoadMesh("Data/Game/Models/Intro.bin", self->introTextureID);
-                self->boxMesh   = LoadMesh("Data/Game/Models/Box.bin", boxTex);
+                self->boxMesh   = LoadMesh("Data/Game/Models/USBox.bin", boxTex);
                 break;
             case REGION_EU:
                 boxTex          = LoadTexture("Data/Game/Models/EUBox.png", TEXFMT_RGBA5551);
