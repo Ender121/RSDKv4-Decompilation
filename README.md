@@ -1,8 +1,11 @@
 ![](header.png?raw=true)
 
-A complete decompilation of Retro Engine v4 and the menus from Sonic 1 and 2 (2013).
+A complete decompilation of Retro Engine v4U fork and the menus from Sonic 1 and 2 (2013).
 
-# **SUPPORT THE OFFICIAL RELEASE OF SONIC 1 & 2**
+# **SUPPORT THE OFFICIAL RELEASE OF SONIC 1,2 & CD**
+
++ Clarification: The version it supports is the Sonic CD version that came out in the Sega Classics Compilation for Amazon Fire TV
+
 + Without assets from the official releases, this decompilation will not run.
 
 + You can get official releases of Sonic 1 & Sonic 2 from:
@@ -12,6 +15,10 @@ A complete decompilation of Retro Engine v4 and the menus from Sonic 1 and 2 (20
   * Nintendo Switch, from [Sonic Origins on the eShop](https://www.nintendo.com/games/detail/sonic-origins-switch/)
   * iOS, Via the App Store
   * Android, Via Google Play or Amazon
+  * 
++ You can get the Sonic CD version
+Through Amazon
+
     * Note that the mobile releases have been delisted. However, if you have downloaded one of these releases in the past, you can redownload it at any time in your device or store account's purchase history.
 
 Even if your platform isn't supported by the official releases, you **must** buy or officially download it for the assets (you don't need to run the official release, you just need the game assets). See [here](https://rsdkmodding.com/Guides/Games/Sonic1-2/Datapack/) for a guide on how to find the required assets from your legally obtained copy/copies of the game(s).
